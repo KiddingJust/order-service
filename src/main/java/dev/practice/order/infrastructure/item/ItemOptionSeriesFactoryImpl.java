@@ -25,16 +25,17 @@ public class ItemOptionSeriesFactoryImpl implements ItemOptionSeriesFactory {
     @Override
     public List<ItemOptionGroup> store(ItemCommand.RegisterItemRequest command, Item item) {
         var itemOptionGroupRequestList = command.getItemOptionGroupRequestList();
+        //Item의 기본값만 전달되었을 땐, Option 쪽 저장 없이 Item만 저장한다는 요구사항 충족
         if (CollectionUtils.isEmpty(itemOptionGroupRequestList)) return Collections.emptyList();
 
         return itemOptionGroupRequestList.stream()
-                .map(requestItemOptionGroup -> {
+                .map(requestItemOptionGroup -> {    //색상, 사이즈 같은 그룹명
                     // itemOptionGroup store
                     var initItemOptionGroup = requestItemOptionGroup.toEntity(item);
                     var itemOptionGroup = itemOptionGroupStore.store(initItemOptionGroup);
 
                     // itemOption store
-                    requestItemOptionGroup.getItemOptionRequestList().forEach(requestItemOption -> {
+                    requestItemOptionGroup.getItemOptionRequestList().forEach(requestItemOption -> {    //색상: 빨,주,노 등
                         var initItemOption = requestItemOption.toEntity(itemOptionGroup);
                         itemOptionStore.store(initItemOption);
                     });

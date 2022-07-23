@@ -24,11 +24,13 @@ public class Item extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String itemToken;
+    private String itemToken;   //Item만 외부와 통신하므로 token값 존재
     private Long partnerId;
     private String itemName;
     private Long itemPrice;
 
+    //mappedBy는 참조관계에서 N 에 해당하는 곳에 적어둠.
+    //주인이 되는 itemOptionGroup에 해주어야, OptionGroup의 item을 바라볼 수 있음.
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.PERSIST)
     private List<ItemOptionGroup> itemOptionGroupList = Lists.newArrayList();
 

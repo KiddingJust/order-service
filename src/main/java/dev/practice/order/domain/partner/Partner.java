@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Slf4j
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor  // 스프링 JPA 사용 시에는 기본 생성자 필요
 @Table(name = "partners")
 public class Partner extends AbstractEntity {
     private static final String PREFIX_PARTNER = "ptn_";
@@ -38,19 +38,21 @@ public class Partner extends AbstractEntity {
         private final String description;
     }
 
+    //명시적으로 Builder를 하면 헷갈리지 않을 수 있음 (생성자는 순서도 마주어야 하고 그러니까ㅏㅏㅏ...)
     @Builder
     public Partner(String partnerName, String businessNo, String email) {
         if (StringUtils.isEmpty(partnerName)) throw new InvalidParamException("empty partnerName");
         if (StringUtils.isEmpty(businessNo)) throw new InvalidParamException("empty businessNo");
         if (StringUtils.isEmpty(email)) throw new InvalidParamException("empty email");
 
-        this.partnerToken = TokenGenerator.randomCharacterWithPrefix(PREFIX_PARTNER);
+        this.partnerToken = TokenGenerator.randomCharacterWithPrefix(PREFIX_PARTNER); //객체 생성과 동시에 만들어져야함.
         this.partnerName = partnerName;
         this.businessNo = businessNo;
         this.email = email;
         this.status = Status.ENABLE;
     }
 
+    /* enable, disable은 내부 메서드 */
     public void enable() {
         this.status = Status.ENABLE;
     }

@@ -14,6 +14,7 @@ import java.time.ZonedDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class AbstractEntity {
 
+    //@CreatedData . TimeZone 기반의 데이터 타입을 쓸 예정이므로 ZonedDateTime 을 사용.
     @CreationTimestamp
     private ZonedDateTime createdAt;
 

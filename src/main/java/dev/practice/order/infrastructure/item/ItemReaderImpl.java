@@ -25,6 +25,8 @@ public class ItemReaderImpl implements ItemReader {
 
     @Override
     public List<ItemInfo.ItemOptionGroupInfo> getItemOptionSeries(Item item) {
+        // Aggregate Root : Item -> ItemOptionGroup, ItemOption 조회 (둘은 외부에서 직접 조회 불가)
+        //즉 해당 메서드는 Item을 통해 하위 객체를 로딩함.
         var itemOptionGroupList = item.getItemOptionGroupList();
         return itemOptionGroupList.stream()
                 .map(itemOptionGroup -> {

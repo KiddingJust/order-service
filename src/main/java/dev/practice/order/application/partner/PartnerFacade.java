@@ -16,7 +16,9 @@ public class PartnerFacade {
     private final NotificationService notificationService;
 
     public PartnerInfo registerPartner(PartnerCommand command) {
+        // partnerService에서 register
         var partnerInfo = partnerService.registerPartner(command);
+        // 이메일 발송. 이메일 성공 실패 관계없이 파트너 등록은 유지. 따라서 Transaction은 여기에 걸리진 않음.
         notificationService.sendEmail(partnerInfo.getEmail(), "title", "description");
         return partnerInfo;
     }
